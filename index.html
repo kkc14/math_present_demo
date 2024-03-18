@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Markdown Previewer</title>
+  <link rel="stylesheet" href="stylesheets/style.css">  
+</head>
+<body>
+
+  <div class="header">
+    <div class="left">
+      <div class =button_container>
+        Slide Name :
+        <textarea id="name" class="name" placeholder="Input Name ">Def</textarea>
+        <button class="button" id="Save">Save</button>
+        <button class="button" id="Load">Load</button>
+        <input type="file" id="fileInput" accept=".md" />
+        <button onclick="downloadTextFile()">Download Text File</button>
+        <input type="color" id="colorPicker" value="#6993EF">
+        <label for="fontSizeInput">Font Size:</label>
+        <input type="number" id="fontSizeInput" min="0" max="5" value="1" step = "0.1">
+        <label class="switch">
+             <br>Presentation Mode
+          <input type="checkbox" id="mode-switch">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </div> 
+
+  <div id="localstorageFile">
+    Slides in the Local Storage: 
+  </div>
+  <div class="container">
+  <button id="lastButton" class="btn">Prev</button>
+  <button id="animateButton" class="btn">Next</button>
+</div>
+  <div class="container">
+    <textarea id="input" class="input textarea" placeholder="Enter Markdown "></textarea>
+    <div id="preview"></div>
+  </div>
+
+<script>
+const StorageList = document.getElementById('localstorageFile');
+const list = document.createElement('ul');
+for (let i = 0; i < localStorage.length; i++) {
+  const key = localStorage.key(i);
+
+  const item = document.createElement('li');
+  item.textContent = `${key}`;
+  list.appendChild(item);
+}
+
+StorageList.appendChild(list);
+</script>
+
+</div>
+  <script src="javascripts/markdown-it.min.js"></script>
+  <script src="javascripts/gsap.min.js"></script>
+  
+  <script src="javascripts/md-it-main.js"></script>
+  <script src="javascripts/GSAP.js"></script>
+  <script src="javascripts/sl.js"></script>  
+  
+  <script src="javascripts/tex-mml-chtml.js"></script>
+
+
+
+
+</body>
+</html>
+
+  
+<script>
+
+
+	function interpreter(container, href) {
+		console.log(container);
+		console.log(href);
+		// the idea is that the code stored in href is something like "action1:parameters1;action2:parameters2"
+		// so that multiple actions/animations can be applied to a single element
+		code = href.split(';');
+		for (i = 0; i < code.length; i++) {
+			action = code[i].split(':');
+			if (action[0]==='h' || action[0]==='H') {
+				// this part needed to be modified for multiple action so that multiple actions for the same type
+				// of event should be stored in one single object
+				let handler = { color: action[1],
+					target: (action[0]==='h') ? container : container.parentElement,
+					handleEvent: function(e) {
+						if (e.type === 'mouseover') {
+							this.target.style.color = this.color;
+							this.target.style.fontSize = "120%";
+						}
+						else if (e.type === 'mouseout') {
+							this.target.style.color = 'black';
+							this.target.style.fontSize = "100%";
+						}
+					}
+				}
+				// The event listener needed to be an object so that it can store
+				// different setting for different elements.
+				container.addEventListener('mouseover', handler);
+				container.addEventListener('mouseout', handler);
+			}
+		}
+	}
+	// setTimeout needed to wait until MathJax is loaded,
+	// there may be some other way to do this
+	setTimeout(() => {
+		containers = document.getElementsByTagName('mjx-container')
+		for (i = 0; i < containers.length; i++) {
+			codes = containers[i].getElementsByTagName('a')
+			for (j = 0; j < codes.length; j++) {
+				if (codes[j].innerText==="") // only highjack those without clickable text
+					interpreter(codes[j].parentElement, codes[j].getAttribute('href'))
+			}
+		}
+	}, 1000)
+
+</script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
+
+  
+  -->
+
+
+  
