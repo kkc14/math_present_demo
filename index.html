@@ -1,134 +1,275 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Markdown Previewer</title>
-  <link rel="stylesheet" href="stylesheets/style.css">  
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <style id="effect">
+    mjx-math:hover {
+      background-color: rgb(249, 249, 169);
+      font-size: 150%;
+      font-weight: bold;
+      color: red;
+    }
+  </style>
 </head>
-<body>
 
-  <div class="header">
-    <div class="left">
-      <div class =button_container>
+<body>
+  <header>
+    <div class="menu">
+      <div class="title" onclick="f()">File <span class="fa fa-bars"></span>
+        <div class="arrow"></div>
+      </div>
+      <div class="dropdown">
+        <!-- 文件上傳區域 -->
+        <input type="file" id="fileInput" accept=".md" style="display: none;" />
+        <p onclick="document.getElementById('fileInput').click()">Upload</p>
+        <p onclick="downloadTextFile()">Download</p>
+      </div>
+    </div>
+    <div class=header>
+      <div id=button_container>
         Slide Name :
         <textarea id="name" class="name" placeholder="Input Name ">Def</textarea>
         <button class="button" id="Save">Save</button>
         <button class="button" id="Load">Load</button>
-        <input type="file" id="fileInput" accept=".md" />
-        <button onclick="downloadTextFile()">Download Text File</button>
-        <input type="color" id="colorPicker" value="#6993EF">
-        <label for="fontSizeInput">Font Size:</label>
-        <input type="number" id="fontSizeInput" min="0" max="5" value="1" step = "0.1">
-        <label class="switch">
-             <br>Presentation Mode
-          <input type="checkbox" id="mode-switch">
-          <span class="slider round"></span>
-        </label>
+        <div id="color-button">
+          <input type="color" id="colorPicker" value="#6993EF">
+        </div>
+        <div id="fontsize-button">
+          <label for="fontSizeInput">Font Size:</label>
+          <input type="number" id="fontSizeInput" min="0" max="5" value="1" step="0.1">
+        </div>
+        <div id="switch-button">
+          <label class="switch">
+            Presentation Mode
+            <input type="checkbox" id="mode-switch">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div id="switch-button">
+          <label for="checkbox">Enable Formula Effects</label>
+          <input type="checkbox" id="enable_effect" checked>
+        </div>
+        <div id="switch-button">
+          <button onclick="generateBlock()" class="typebutton" id="Bold">Bold</button>
+        </div>
+        <div id="switch-button">
+          <button onclick="generateItalic()" class="typebutton" id="Italic">Italic</button>
+        </div>      
       </div>
     </div>
-  </div> 
+  </header>
 
   <div id="localstorageFile">
-    Slides in the Local Storage: 
+    Slides in the Local Storage:
+  </div>
+
+  <div class="container">
+    <button id="lastButton" class="btn">Prev</button>
+    <button id="animateButton" class="btn">Next</button>
   </div>
   <div class="container">
-  <button id="lastButton" class="btn">Prev</button>
-  <button id="animateButton" class="btn">Next</button>
-</div>
-  <div class="container">
     <textarea id="input" class="input textarea" placeholder="Enter Markdown "></textarea>
+    <div class="splitter" id="splitter"></div>
     <div id="preview"></div>
   </div>
 
+  <script>
+    const StorageList = document.getElementById('localstorageFile');
+    const list = document.createElement('ul');
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+
+      const item = document.createElement('li');
+      item.textContent = `${key}`;
+      list.appendChild(item);
+    }
+
+    StorageList.appendChild(list);
+  </script>
+
+  <script>
+    var checkbox = document.getElementById('enable_effect');
+    var style = document.getElementById("effect");
+    checkbox.addEventListener('change', function () {
+      if (checkbox.checked) {
+        style.disabled = false;
+      } else {
+        style.disabled = true;
+      }
+    });
+  </script>
+
+  <script>
+    function generateBlock() {
+      var textarea = document.getElementById("input");
+      var start = textarea.selectionStart;
+      var end = textarea.selectionEnd;
+      var text = textarea.value;
+      var blockText = "****";
+      var newText = text.substring(0, start) + blockText + text.substring(end);
+      textarea.value = newText;
+      textarea.focus();
+      textarea.setSelectionRange(start + 2, start + 2);
+    }
+  </script>
+
 <script>
-const StorageList = document.getElementById('localstorageFile');
-const list = document.createElement('ul');
-for (let i = 0; i < localStorage.length; i++) {
-  const key = localStorage.key(i);
-
-  const item = document.createElement('li');
-  item.textContent = `${key}`;
-  list.appendChild(item);
-}
-
-StorageList.appendChild(list);
+  function generateItalic() {
+    var textarea = document.getElementById("input");
+    var start = textarea.selectionStart;
+    var end = textarea.selectionEnd;
+    var text = textarea.value;
+    var blockText = "**";
+    var newText = text.substring(0, start) + blockText + text.substring(end);
+    textarea.value = newText;
+    textarea.focus();
+    textarea.setSelectionRange(start + 1, start + 1);
+  }
 </script>
 
-</div>
+
+
+  </div>
   <script src="javascripts/markdown-it.min.js"></script>
   <script src="javascripts/gsap.min.js"></script>
-  
 
-  
-  
+
+
+
   <script src="javascripts/md-it-main.js"></script>
   <script src="javascripts/GSAP.js"></script>
-  <script src="javascripts/sl.js"></script>  
-  
+  <script src="javascripts/sl.js"></script>
+
   <script src="javascripts/tex-mml-chtml.js"></script>
 
 
 
 
 </body>
+
 </html>
 
-  
 <script>
-
-
-	function interpreter(container, href) {
-		console.log(container);
-		console.log(href);
-		// the idea is that the code stored in href is something like "action1:parameters1;action2:parameters2"
-		// so that multiple actions/animations can be applied to a single element
-		code = href.split(';');
-		for (i = 0; i < code.length; i++) {
-			action = code[i].split(':');
-			if (action[0]==='h' || action[0]==='H') {
-				// this part needed to be modified for multiple action so that multiple actions for the same type
-				// of event should be stored in one single object
-				let handler = { color: action[1],
-					target: (action[0]==='h') ? container : container.parentElement,
-					handleEvent: function(e) {
-						if (e.type === 'mouseover') {
-							this.target.style.color = this.color;
-							this.target.style.fontSize = "120%";
-						}
-						else if (e.type === 'mouseout') {
-							this.target.style.color = 'black';
-							this.target.style.fontSize = "100%";
-						}
-					}
-				}
-				// The event listener needed to be an object so that it can store
-				// different setting for different elements.
-				container.addEventListener('mouseover', handler);
-				container.addEventListener('mouseout', handler);
-			}
-		}
-	}
-	// setTimeout needed to wait until MathJax is loaded,
-	// there may be some other way to do this
-	setTimeout(() => {
-		containers = document.getElementsByTagName('mjx-container')
-		for (i = 0; i < containers.length; i++) {
-			codes = containers[i].getElementsByTagName('a')
-			for (j = 0; j < codes.length; j++) {
-				if (codes[j].innerText==="") // only highjack those without clickable text
-					interpreter(codes[j].parentElement, codes[j].getAttribute('href'))
-			}
-		}
-	}, 1000)
-
+  function interpreter(container, href) {
+    console.log(container);
+    console.log(href);
+    // the idea is that the code stored in href is something like "action1:parameters1;action2:parameters2"
+    // so that multiple actions/animations can be applied to a single element
+    code = href.split(';');
+    for (i = 0; i < code.length; i++) {
+      action = code[i].split(':');
+      if (action[0] === 'h' || action[0] === 'H') {
+        // this part needed to be modified for multiple action so that multiple actions for the same type
+        // of event should be stored in one single object
+        let handler = {
+          color: action[1],
+          target: (action[0] === 'h') ? container : container.parentElement,
+          handleEvent: function (e) {
+            if (e.type === 'mouseover') {
+              this.target.style.color = this.color;
+              this.target.style.fontSize = "120%";
+            }
+            else if (e.type === 'mouseout') {
+              this.target.style.color = 'black';
+              this.target.style.fontSize = "100%";
+            }
+          }
+        }
+        // The event listener needed to be an object so that it can store
+        // different setting for different elements.
+        container.addEventListener('mouseover', handler);
+        container.addEventListener('mouseout', handler);
+      }
+    }
+  }
+  // setTimeout needed to wait until MathJax is loaded,
+  // there may be some other way to do this
+  setTimeout(() => {
+    containers = document.getElementsByTagName('mjx-container')
+    for (i = 0; i < containers.length; i++) {
+      codes = containers[i].getElementsByTagName('a')
+      for (j = 0; j < codes.length; j++) {
+        if (codes[j].innerText === "") // only highjack those without clickable text
+          interpreter(codes[j].parentElement, codes[j].getAttribute('href'))
+      }
+    }
+  }, 1000)
 </script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script> 
+
+<script>
+  const splitter = document.getElementById("splitter");
+  const leftColumn = document.getElementById("input");
+  const rightColumn = document.getElementById("preview");
+  const container2 = document.querySelector(".container");
+
+  let isResizing = false;
+  let initialX = 0;
+  let initialLeftWidth = 0;
+
+  splitter.addEventListener("mousedown", (e) => {
+    isResizing = true;
+    initialX = e.clientX;
+    initialLeftWidth = leftColumn.offsetWidth;
+
+    document.addEventListener("mousemove", resize);
+    document.addEventListener("mouseup", stopResize);
+
+    e.preventDefault();
+  });
+
+  function resize(e) {
+    if (!isResizing) return;
+
+    const containerRect = container2.getBoundingClientRect();
+    const offsetX = e.clientX - initialX;
+    const newLeftWidth = initialLeftWidth + offsetX;
+    const newRightWidth = containerRect.width - newLeftWidth;
+
+    leftColumn.style.width = newLeftWidth + "px";
+    rightColumn.style.width = newRightWidth + "px";
+  }
+
+  function stopResize() {
+    isResizing = false;
+
+    document.removeEventListener("mousemove", resize);
+    document.removeEventListener("mouseup", stopResize);
+  }
+</script>
+
+
+<script>
+  function f() {
+    document.getElementsByClassName('dropdown')[0].classList.toggle('down');
+    document.getElementsByClassName('arrow')[0].classList.toggle('gone');
+    if (document.getElementsByClassName('dropdown')[0].classList.contains('down')) {
+      setTimeout(function () {
+        document.getElementsByClassName('dropdown')[0].style.overflow = 'visible';
+      }, 500);
+    } else {
+      document.getElementsByClassName('dropdown')[0].style.overflow = 'hidden';
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var menu = document.getElementsByClassName('menu')[0];
+    if (!menu.contains(e.target)) {
+      var dropdown = document.getElementsByClassName('dropdown')[0];
+      dropdown.classList.remove('down');
+      var arrow = document.getElementsByClassName('arrow')[0];
+      arrow.classList.remove('gone');
+      dropdown.style.overflow = 'hidden';
+    }
+  });
+</script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 
   
   -->
-
-
-  

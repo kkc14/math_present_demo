@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
       //codeElement();
     });
   });
-  
+
+
   function markdownToHtml(markdown) {
     
     const text = input.textContent;
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 var md = window.markdownit();
 
-md.inline.ruler.push('customDiv', function (state,index) {
+md.inline.ruler.push('customDiv', function (state, index) {
   var start = state.pos;
   var marker = '#-';
   // Check if the current position matches the marker
@@ -40,14 +41,13 @@ md.inline.ruler.push('customDiv', function (state,index) {
     var end = start + state.posMax;
     //console.log(state);
     // Extract class names from the marker
-    var classAttribute = state.src.slice(start + 3,end);
+    var classAttribute = state.src.slice(start + 3, end);
     var token = state.push('html_block', '', 1);
-    if(mark==0)
-    {
-      token.content = '<div id=slide ' +'class="'+ classAttribute + '">';
-      mark=1;
-    }else{
-      token.content = '</div><div id=slide ' +'class="'+ classAttribute + '">';
+    if (mark == 0) {
+      token.content = '<div id=slide ' + 'class="' + classAttribute + '">';
+      mark = 1;
+    } else {
+      token.content = '</div><div id=slide ' + 'class="' + classAttribute + '">';
     }
 
     state.pos = state.posMax;
@@ -55,6 +55,14 @@ md.inline.ruler.push('customDiv', function (state,index) {
   }
   return false;
 });
+
+// Disable paragraph mode
+md.renderer.rules.paragraph_open = function () {
+  return '';
+};
+md.renderer.rules.paragraph_close = function () {
+  return '';
+};
 //==================
     
     var output = md.render(markdown);
