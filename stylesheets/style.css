@@ -169,3 +169,13 @@ p:hover {
   color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 30px -10px #000;
 }
+
+mjx-math:hover{
+  font-size: 1em ;
+  color: red;
+}
+
+h2 > mjx-math:hover{
+  font-size: 1em ;
+  color: blue !important;
+}
