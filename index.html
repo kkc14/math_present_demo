@@ -61,10 +61,6 @@
     </div>
   </header>
 
-  <div id="localstorageFile">
-    Slides in the Local Storage:
-  </div>
-
   <div class="container">
     <button id="lastButton" class="btn">Prev</button>
     <button id="animateButton" class="btn">Next</button>
@@ -74,20 +70,6 @@
     <div class="splitter" id="splitter"></div>
     <div id="preview"></div>
   </div>
-
-  <script>
-    const StorageList = document.getElementById('localstorageFile');
-    const list = document.createElement('ul');
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-
-      const item = document.createElement('li');
-      item.textContent = `${key}`;
-      list.appendChild(item);
-    }
-
-    StorageList.appendChild(list);
-  </script>
 
   <script>
     var checkbox = document.getElementById('enable_effect');
