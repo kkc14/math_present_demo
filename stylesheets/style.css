@@ -20,6 +20,7 @@ textarea {
 
 #button_container {
   display: flex;
+  margin: auto;
 }
 
 #color-button {

@@ -5,6 +5,7 @@ var key = document.getElementById('name');
 var preview = document.getElementById('preview');
 const colorPicker = document.getElementById('colorPicker');
 const fontSizeInput = document.getElementById('fontSizeInput');
+const body=document.getElementsByTagName('body');
 
 Save.addEventListener("click", function() {
     var key = document.getElementById('name');

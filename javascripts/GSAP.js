@@ -4,6 +4,7 @@ var slides = gsap.utils.toArray('.slide');
 var InputArea = gsap.utils.toArray('.input');
 var Now_slides = 0, slides_num = gsap.utils.toArray('.slide').lenth;
 var PreviewArea = document.getElementById('preview');
+var headerArea =document.getElementsByClassName('header')
 
 const modeSwitch = document.getElementById("mode-switch");
 modeSwitch.addEventListener("change", () => {
@@ -19,6 +20,7 @@ modeSwitch.addEventListener("change", () => {
         gsap.set(InputArea, { height: 0, width: 0, duration: 0, autoAlpha: 0 });
         gsap.set(slides[0], { height: 'auto', width: 'auto', duration: 0.5 });
         gsap.to(slides[0], { opacity: 1, x: '0%', autoAlpha: 1 });
+        gsap.set(headerArea, { display: 'none' });
         PreviewArea.scroll({ top: 0 });
         PreviewArea.style.overflow = 'auto';
         document.documentElement.requestFullscreen(); // 將整個文件放大到全屏
@@ -27,6 +29,8 @@ modeSwitch.addEventListener("change", () => {
         gsap.set(slides, { opacity: 1, x: '0%', autoAlpha: 1 });
         gsap.set(InputArea, { height: 'auto', width: '100%', duration: 0.5 });
         gsap.set(InputArea, { opacity: 1, x: '0%', autoAlpha: 1 });
+        gsap.set(headerArea, {display: '' });
+
         PreviewArea.style.overflow = 'auto';
         setTimeout(() => {
             document.exitFullscreen();
@@ -42,9 +46,13 @@ document.addEventListener('fullscreenchange', function(event) {
       gsap.set(slides, { opacity: 1, x: '0%', autoAlpha: 1 });
       gsap.set(InputArea, { height: 'auto', width: '100%', duration: 0.5 });
       gsap.set(InputArea, { opacity: 1, x: '0%', autoAlpha: 1 });
+      gsap.set(headerArea, {display: '' });
       PreviewArea.style.overflow = 'auto';
     }
   });
+
+
+  
 
 lastButton.addEventListener("click", function () {
     if (Now_slides >= 1) {
