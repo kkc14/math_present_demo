@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var html = markdownToHtml(text)+'</div>';
       preview.innerHTML = html;
       console.log(html)
-
+      save_to_localStorage();
       if (timeoutId) {
         clearTimeout(timeoutId);
       }

@@ -31,13 +31,10 @@
             <input type="file" id="fileInput" accept=".md" style="display: none;" />
             <p onclick="document.getElementById('fileInput').click()">Upload</p>
             <p onclick="downloadTextFile()">Download</p>
+            <p onclick="LoadFromLocalStorage()">load last slide</p>
           </div>
         </div>
-        
-        Slide Name :
-        <textarea id="name" class="name" placeholder="Input Name ">Def</textarea>
-        <button class="button" id="Save">Save</button>
-        <button class="button" id="Load">Load</button>
+
         <div id="color-button">
           <input type="color" id="colorPicker" value="#6993EF">
         </div>

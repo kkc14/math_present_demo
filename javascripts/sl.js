@@ -7,21 +7,19 @@ const colorPicker = document.getElementById('colorPicker');
 const fontSizeInput = document.getElementById('fontSizeInput');
 const body=document.getElementsByTagName('body');
 
-Save.addEventListener("click", function() {
-    var key = document.getElementById('name');
+function save_to_localStorage() {
     var text = input.value;
-    localStorage.setItem(key.value, text);
+    localStorage.setItem('last_slide', text);
     console.log("Saved");
     console.log(text);
-});
+}
 
-Load.addEventListener("click", function() {
-  var key = document.getElementById('name');
-  const value = localStorage.getItem(key.value);
+function LoadFromLocalStorage() {
+  const value = localStorage.getItem('last_slide');
   input.value=value;
   console.log("loaded");
   reloadPreview();
-});
+}
 
 function reloadPreview(){
    var value = input.value;

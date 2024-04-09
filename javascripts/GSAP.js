@@ -25,9 +25,9 @@ modeSwitch.addEventListener("change", () => {
         PreviewArea.style.overflow = 'auto';
         document.documentElement.requestFullscreen(); // 將整個文件放大到全屏
     } else {
-        gsap.set(slides, { height: 'auto', width: '100%', duration: 0.5 });
+        gsap.set(slides, { height: 'auto', width: '100%'});
         gsap.set(slides, { opacity: 1, x: '0%', autoAlpha: 1 });
-        gsap.set(InputArea, { height: 'auto', width: '100%', duration: 0.5 });
+        gsap.set(InputArea, { height: 'auto', width: '100%'});
         gsap.set(InputArea, { opacity: 1, x: '0%', autoAlpha: 1 });
         gsap.set(headerArea, {display: '' });
 
@@ -98,19 +98,19 @@ function showSlide(index) {
     switch (animationType) {
         case '1':
             gsap.set(slides[index], { opacity: 0, x: '-100%' });
-            gsap.to(slides[index], { duration: 2, x: '0%', opacity: 1 });
+            gsap.to(slides[index], { duration: 0.5, x: '0%', opacity: 1 });
             break;
         case '2':
             gsap.set(slides[index], { opacity: 0, y: '-100%', x: '0%' });
-            gsap.to(slides[index], { duration: 2, y: '0%', x: '0%', opacity: 1 });
+            gsap.to(slides[index], { duration: 0.5, y: '0%', x: '0%', opacity: 1 });
             break;
         case '3':
             gsap.set(slides[index], { opacity: 0, y: '100%', x: '0%' });
-            gsap.to(slides[index], { duration: 2, y: '0%', x: '0%', opacity: 1 });
+            gsap.to(slides[index], { duration: 0.5, y: '0%', x: '0%', opacity: 1 });
             break;
         default:
             gsap.set(slides[index], { opacity: 0, x: '-100%' });
-            gsap.to(slides[index], { duration: 1, x: '0%', opacity: 1 });
+            gsap.to(slides[index], { duration: 0.5, x: '0%', opacity: 1 });
 
     }
 
