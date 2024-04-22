@@ -76,21 +76,25 @@ md.renderer.rules.image = function (tokens, idx, options, env, self) {
   var token = tokens[idx];
 
   // Parse the alt text for size information
-  var altText = token.content;
-  var match = altText.match(/{size:(\d+)+ float:([a-z]+)}/);
+  var altText = token.attrs[2][1];
+  var match = altText.match(/size:(\d+%)+ float:([a-z]+)/);
+  console.log(token)
+  console.log(altText)
   console.log(match)
+
   if (match) {
     var size = match[1];
     var float = match[2];
 
     // Remove the size information from the alt text
-    token.content = altText.replace(/{size:(\d+%)+ float:([a-z]+)}/, '');
+    token.attrs[2][1] = altText.replace(/size:(\d+%)+ float:([a-z]+)/, '');
 
     // Add the size information to the src attribute
-    token.attrs[token.attrIndex('src')][1] += ' style="width: ' + size + '%; height: ' + size + '%;float:'+float+' ;"';
+    token.attrs[token.attrJoin('style','size:' + size + ' ;float:'+float+' ;')];
   }
 
   // Call the default renderer
+  console.log(token)
   return defaultRender(tokens, idx, options, env, self);
 };
 
