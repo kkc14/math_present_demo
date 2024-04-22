@@ -31,7 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //=====================
 
-var md = window.markdownit();
+var md = window.markdownit({
+  html: true,
+  linkify: true,
+  typographer: true
+})
 
 md.inline.ruler.push('customDiv', function (state, index) {
   var start = state.pos;

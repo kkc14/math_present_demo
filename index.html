@@ -32,6 +32,7 @@
             <p onclick="document.getElementById('fileInput').click()">Upload</p>
             <p onclick="downloadTextFile()">Download</p>
             <p onclick="LoadFromLocalStorage()">load last slide</p>
+            
           </div>
         </div>
 
@@ -42,6 +43,16 @@
           <label for="fontSizeInput">Font Size:</label>
           <input type="number" id="fontSizeInput" min="0" max="5" value="1" step="0.1">
         </div>
+
+
+
+
+    <button 
+      id="upload_widget" 
+      class="cloudinary-button">
+        Upload files
+    </button>
+
         <div id="switch-button">
           <label class="switch">
             Presentation Mode
@@ -127,6 +138,11 @@
   <script src="javascripts/sl.js"></script>
 
   <script src="javascripts/tex-mml-chtml.js"></script>
+
+  <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript">
+  </script>
+      
+  <script src="javascripts/Cloudinary.js"></script>
 
 
 
