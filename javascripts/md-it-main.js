@@ -90,7 +90,7 @@ md.renderer.rules.image = function (tokens, idx, options, env, self) {
     token.attrs[2][1] = altText.replace(/size:(\d+%)+ float:([a-z]+)/, '');
 
     // Add the size information to the src attribute
-    token.attrs[token.attrJoin('style','size:' + size + ' ;float:'+float+' ;')];
+    token.attrs[token.attrJoin('style','width:' + size + ' ;float:'+float+' ;')];
   }
 
   // Call the default renderer
