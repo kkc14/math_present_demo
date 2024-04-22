@@ -27,7 +27,7 @@ const myWidget = cloudinary.createUploadWidget(
   },
   (error, result) => {
     if (!error && result && result.event === "success") {
-      console.log("Done! Here is the image info: ", result.info);
+      console.log("Done! Here is the image info: ", result.info.secure_url);
       input.value = input.value + '![My Image]('+ result.info.secure_url +')' ;
 
     }
