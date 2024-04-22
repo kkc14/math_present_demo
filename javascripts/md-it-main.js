@@ -78,6 +78,7 @@ md.renderer.rules.image = function (tokens, idx, options, env, self) {
   // Parse the alt text for size information
   var altText = token.content;
   var match = altText.match(/{size:(\d+)+ float:([a-z]+)}/);
+  console.log(match)
   if (match) {
     var size = match[1];
     var float = match[2];
