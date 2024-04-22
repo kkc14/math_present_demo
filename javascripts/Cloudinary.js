@@ -1,6 +1,6 @@
 const cloudName = "diijeq0o4"; // replace with your own cloud name
 const uploadPreset = "MathPresenter2324"; // replace with your own upload preset
-var textarea = document.getElementById('myTextarea');
+var textarea = document.getElementById('input');
 
 
 const myWidget = cloudinary.createUploadWidget(
