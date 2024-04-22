@@ -1,7 +1,6 @@
 
 var input = document.getElementById('input');
 var preview = document.getElementById('preview');
-var defaultRender = md.renderer.rules.image;
 let timeoutId = null;
 let mark=0;
 
@@ -37,6 +36,8 @@ var md = window.markdownit({
   linkify: true,
   typographer: true
 })
+
+var defaultRender = md.renderer.rules.image;
 
 md.inline.ruler.push('customDiv', function (state, index) {
   var start = state.pos;
