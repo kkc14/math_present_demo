@@ -1,7 +1,7 @@
 const cloudName = "diijeq0o4"; // replace with your own cloud name
 const uploadPreset = "MathPresenter2324"; // replace with your own upload preset
-var textarea = document.getElementById('input');
-
+var input = document.getElementById('input');
+var url
 
 // Remove the comments from the code below to add
 // additional functionality.
@@ -29,8 +29,7 @@ const myWidget = cloudinary.createUploadWidget(
   (error, result) => {
     if (!error && result && result.event === "success") {
       console.log("Done! Here is the image info: ", result.info);
-        textarea.value = textarea.value + '![My Image]('+ result.info.secure_url +')' ;
-
+      url=result.info.secure_url
     }
   }
 );
@@ -39,6 +38,8 @@ document.getElementById("upload_widget").addEventListener(
   "click",
   function () {
     myWidget.open();
+    input.value = input.value + '![My Image]('+ url +')' ;
+
   },
   false
 );
