@@ -1,6 +1,7 @@
 
 var input = document.getElementById('input');
 var preview = document.getElementById('preview');
+var defaultRender = md.renderer.rules.image;
 let timeoutId = null;
 let mark=0;
 
@@ -67,6 +68,31 @@ md.renderer.rules.paragraph_open = function () {
 md.renderer.rules.paragraph_close = function () {
   return '';
 };
+
+
+
+md.renderer.rules.image = function (tokens, idx, options, env, self) {
+  var token = tokens[idx];
+
+  // Parse the alt text for size information
+  var altText = token.content;
+  var match = altText.match(/{size:(\d+)+ float:([a-z]+)}/);
+  if (match) {
+    var size = match[1];
+    var float = match[2];
+
+    // Remove the size information from the alt text
+    token.content = altText.replace(/{size:(\d+%)+ float:([a-z]+)}/, '');
+
+    // Add the size information to the src attribute
+    token.attrs[token.attrIndex('src')][1] += ' style="width: ' + size + '%; height: ' + size + '%;float:'+float+' ;"';
+  }
+
+  // Call the default renderer
+  return defaultRender(tokens, idx, options, env, self);
+};
+
+
 //==================
     
     var output = md.render(markdown);
